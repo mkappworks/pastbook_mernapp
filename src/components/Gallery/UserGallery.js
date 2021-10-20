@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import ImageGrid from "./ImageGrid";
@@ -42,13 +42,18 @@ const UserGallery = () => {
   //if the dbUserGallery length is not zero then the content is changed to imageGrid
   if (localUserImageList.length !== 0) content = imageGrid;
 
+  const fetchDataHandler = useCallback(() => {
+    dispatch(fetchUserGallery());
+  }, [dispatch]);
+
   useEffect(() => {
     if (Number(localStorage.getItem("userImageCount")) !== userGallery.length)
-      dispatch(fetchUserGallery());
+      fetchDataHandler();
+    // dispatch(fetchUserGallery());
     setLocalUserImageList(userGallery);
     setDraggedUserImageList(userGallery);
     setIsImageOrderSaved(true);
-  }, [userGallery]);
+  }, [userGallery, fetchDataHandler]);
 
   return (
     <Fragment>

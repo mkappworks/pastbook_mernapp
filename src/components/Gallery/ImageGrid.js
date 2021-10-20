@@ -20,7 +20,7 @@ const ImageGrid = (props) => {
     setDragging(true);
   };
 
-   //function to remove component which has started to be drage to a event listener
+  //function to remove component which has started to be drage to a event listener
   const dragEndHandler = () => {
     setDragging(false);
     dragNodeRef.current.removeEventListener("dragend", dragEndHandler);
@@ -28,7 +28,7 @@ const ImageGrid = (props) => {
     dragNodeRef.current = null;
   };
 
-   //function to perform logic when draggin component crosses another component
+  //function to perform logic when draggin component crosses another component
   const dragEnterHandler = (event, image) => {
     const currentItem = dragItemRef.current;
 
@@ -41,12 +41,12 @@ const ImageGrid = (props) => {
           .map((_, i) => i)
           .filter((e) => newList[e].id === currentItem.id);
 
-          //get the index of the drag enter component
+        //get the index of the drag enter component
         const indexofDragEnterItem = newList
           .map((_, i) => i)
           .filter((e) => newList[e].id === image.id);
 
-          //use splice to switch the location of the two components in the imageList state
+        //use splice to switch the location of the two components in the imageList state
         newList[indexofDragEnterItem] = newList.splice(
           indexOfDragItem,
           1,
@@ -71,7 +71,7 @@ const ImageGrid = (props) => {
 
   useEffect(() => {
     if (orderChange != null) orderChange(imageList);
-  }, [imageList]);
+  }, [imageList, orderChange]);
 
   return imageList.map((image) => {
     cssClasses =

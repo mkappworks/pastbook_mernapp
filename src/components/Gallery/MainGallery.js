@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { fetchMainGallery } from "../../helper/service/fetch_main_gallery";
@@ -48,13 +48,18 @@ const MainGallery = () => {
   //if the mainGallery length is not zero then the content is changed to imageGrid
   if (mainGallery.length !== 0) content = imageGrid;
 
+  const fetchDataHandler = useCallback(() => {
+    dispatch(fetchMainGallery());
+  }, [dispatch]);
+
   useEffect(() => {
     //call the fetchMainGallery helper fn to get all image urls from the db
-    dispatch(fetchMainGallery());
-    
+    //dispatch(fetchMainGallery());
+    fetchDataHandler();
+
     setLocalUserImageList(userGallery);
     setIsSelectionSaved(true);
-  }, [userGallery]);
+  }, [userGallery, fetchDataHandler]);
 
   return (
     <Fragment>

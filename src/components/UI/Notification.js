@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { uiActions } from "../../store/slice/ui-slice";
@@ -24,15 +24,20 @@ to remove the notification
     cssClasses = `${classes.notification} ${classes.success}`;
   }
 
+  const uiNotificationHandler = useCallback(() => {
+    dispatch(uiActions.removeNotification());
+  }, [dispatch]);
+
   useEffect(() => {
-    //if the notification.status is error or success then notification is removed after 2000ms 
+    //if the notification.status is error or success then notification is removed after 2000ms
     if (notification.status === "error" || notification.status === "success") {
       const interval = setInterval(() => {
-        dispatch(uiActions.removeNotification());
+        uiNotificationHandler();
+        // dispatch(uiActions.removeNotification());
       }, 2000);
       return () => clearInterval(interval);
     }
-  }, [notification.status]);
+  }, [notification.status, uiNotificationHandler]);
 
   return (
     <section className={cssClasses}>
